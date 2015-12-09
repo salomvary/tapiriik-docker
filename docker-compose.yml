@@ -1,0 +1,45 @@
+mongo:
+  image: 'mongo:3'
+  expose:
+    - '27017'
+
+rabbitmq:
+  image: 'rabbitmq:3'
+  environment:
+    - RABBITMQ_NODENAME=tapiriik
+  expose:
+    - '5672'
+
+redis:
+  image: 'redis:3'
+  expose:
+    - '6379'
+
+sync_worker:
+  image: 'salomvary/tapiriik-docker:latest'
+  links:
+    - mongo
+    - rabbitmq
+    - redis
+  command: ./sync_worker.sh
+
+sync_scheduler:
+  image: 'salomvary/tapiriik-docker:latest'
+  links:
+    - mongo
+    - rabbitmq
+    - redis
+  command: ./sync_scheduler.sh
+
+web:
+  image: 'salomvary/tapiriik-docker:latest'
+  links:
+    - mongo
+    - rabbitmq
+    - redis
+  ports:
+    - '8000:8000'
+  environment:
+    - STRAVA_CLIENT_ID
+    - STRAVA_CLIENT_SECRET
+  command: ./web.sh
