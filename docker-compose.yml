@@ -22,6 +22,7 @@ sync_worker:
     - rabbitmq
     - redis
   command: ./sync_worker.sh
+  env_file: environment
 
 sync_scheduler:
   image: 'salomvary/tapiriik-docker:latest'
@@ -30,6 +31,7 @@ sync_scheduler:
     - rabbitmq
     - redis
   command: ./sync_scheduler.sh
+  env_file: environment
 
 web:
   image: 'salomvary/tapiriik-docker:latest'
@@ -39,7 +41,5 @@ web:
     - redis
   ports:
     - '8000:8000'
-  environment:
-    - STRAVA_CLIENT_ID
-    - STRAVA_CLIENT_SECRET
   command: ./web.sh
+  env_file: environment
