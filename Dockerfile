@@ -11,6 +11,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
 ADD local_settings.py tapiriik/local_settings.py
-ADD sync_worker.sh sync_scheduler.sh web.sh ./
-
-RUN python3 credentialstore_keygen.py >> tapiriik/local_settings.py
+ADD sync_worker.sh sync_scheduler.sh web.sh credentialstore_keygen_hex.py ./
